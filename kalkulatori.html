@@ -7,6 +7,8 @@
       font-family: Arial;
       text-align: center;
       margin-top: 60px;
+      background: #fbf7ee;
+      color: #264348;
     }
 
     input {
@@ -32,18 +34,15 @@
 </head>
 <body>
 
+
+
 <h1>Kalkulatori i energjisë elektrike</h1>
 
-<input type="number" id="block1" placeholder="Zona I / Tarifa e lartë (kWh)">
+<br>
+<h3>Tarifa e lartë</h3><input type="number" id="block1" placeholder="Muaji paraprak (kWh)"> <input type="number" id="block2" placeholder="Muaji aktual (kWh)">
 <br>
 
-<input type="number" id="block2" placeholder="Zona I / Tarifa e ulët (kWh)">
-<br>
-
-<input type="number" id="block3" placeholder="Zona II / Tarifa e lartë (kWh)">
-<br>
-
-<input type="number" id="block4" placeholder="Zona II / Tarifa e ulët (kWh)">
+<h3>Tarifa e ulët</h3><input type="number" id="block3" placeholder="Muaji paraprak (kWh)"><input type="number" id="block4" placeholder="Muaji aktual (kWh)">
 <br>
 
 <button onclick="calculate()">Llogarit</button>
@@ -71,12 +70,24 @@ function calculate() {
   let b3 = parseFloat(document.getElementById("block3").value) || 0;
   let b4 = parseFloat(document.getElementById("block4").value) || 0;
 
-  // energjia totale
-  let energyTotal =
-    (b1 * cmimi1) +
-    (b2 * cmimi2) +
-    (b3 * cmimi3) +
-    (b4 * cmimi4);
+
+  // energjia totale ne kWh
+ let ETot = (b2-b1)+(b4-b3);
+
+  // ratio
+  let r=(b2-b1)/ETot;
+
+  //teprica (sasia mbi 800kWh)
+  let d=ETot-800;
+
+  // energjia totale ne Euro
+  let energyTotal = 0;
+   
+  if (ETot<=800) {
+    energyTotal= (b2-b1)*cmimi1 + (b4-b3)*cmimi2;
+  } else {
+    energyTotal = 800*r*cmimi1 + 800*(1-r)*cmimi2 + d*r*cmimi3 + d*(1-r)*cmimi4;
+  }
 
   // Subtotali pa TVSh
   let subtotal = energyTotal + fixedFee;
@@ -87,8 +98,9 @@ function calculate() {
   // Totali
   let total = subtotal + TVSh;
 
-  // Display result
+  // Shfaqja e rezultatit
   document.getElementById("result").innerHTML =
+    "Totali: " + ETot.toFixed(2) + " kWh;" + " Tarifa e lartë: " + (b2-b1).toFixed(2) + " kWh;" + " Tarifa e ulët: " + (b4-b3).toFixed(2) + " kWh;" +  "<br>" +
     "Shpenzimet e energjisë: € " + energyTotal.toFixed(2) + "<br>" +
     "Kostoja e furnizuesit: € " + fixedFee.toFixed(2) + "<br>" +
     "Gjithsej: € " + subtotal.toFixed(2) + "<br>" +
