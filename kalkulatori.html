@@ -45,7 +45,7 @@
 <h3>Tarifa e ulët</h3><input type="number" id="block3" placeholder="Muaji paraprak (kWh)"><input type="number" id="block4" placeholder="Muaji aktual (kWh)">
 <br>
 
-<button onclick="calculate()">Llogarit</button>
+<button onclick="calculate()">Llogarit</button> <button onclick="refreshPage()">Rifresko</button>
 
 <div id="result"></div>
 
@@ -107,6 +107,9 @@ function calculate() {
     "TVSh (8%): € " + TVSh.toFixed(2) + "<br><br>" +
     "Shuma për tu paguar: € " + total.toFixed(2);
 }
+function refreshPage() {
+            location.reload();
+        }
 </script>
 
 <br>
