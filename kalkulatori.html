@@ -1,3 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kalkulatori</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 60px;
+      background: #fbf7ee;
+      color: #264348;
+    }
+
+    input {
+      padding: 10px;
+      margin: 8px;
+      font-size: 16px;
+      width: 250px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 25px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+
+
+<h1>Kalkulatori</h1>
+
+<br>
+<h3>Tarifa e lartë</h3><input type="number" id="block1" placeholder="Muaji paraprak (kWh)"> <input type="number" id="block2" placeholder="Muaji aktual (kWh)">
+<br>
+
+<h3>Tarifa e ulët</h3><input type="number" id="block3" placeholder="Muaji paraprak (kWh)"><input type="number" id="block4" placeholder="Muaji aktual (kWh)">
+<br>
+
+<button onclick="calculate()">Llogarit</button> <button onclick="refreshPage()">Rifresko</button>
+
+<div id="result"></div>
+
+<script>
+function calculate() {
+
+  // Cmimet fikse per bllok
+  const cmimi1 = 0.0740;
+  const cmimi2 = 0.0317;
+  const cmimi3 = 0.1373;
+  const cmimi4 = 0.0647;
+
+  // Kostoja e furnizuesit
+  const fixedFee = 1.90;
+
+  // TVSh-ja ne perqindje
+  const TVShRate = 0.08; // 8%
+
+  // Inputet (0 nese e zbrazet)
+  let b1 = parseFloat(document.getElementById("block1").value) || 0;
+  let b2 = parseFloat(document.getElementById("block2").value) || 0;
+  let b3 = parseFloat(document.getElementById("block3").value) || 0;
+  let b4 = parseFloat(document.getElementById("block4").value) || 0;
+
+
+  // energjia totale ne kWh
+ let ETot = (b2-b1)+(b4-b3);
+
+  // ratio
+  let r=(b2-b1)/ETot;
+
+  //teprica (sasia mbi 800kWh)
+  let d=ETot-800;
+
+  // energjia totale ne Euro
+  let energyTotal = 0;
+   
+  if (ETot<=800) {
+    energyTotal= (b2-b1)*cmimi1 + (b4-b3)*cmimi2;
+  } else {
+    energyTotal = 800*r*cmimi1 + 800*(1-r)*cmimi2 + d*r*cmimi3 + d*(1-r)*cmimi4;
+  }
+
+  // Subtotali pa TVSh
+  let subtotal = energyTotal + fixedFee;
+
+  // TVSh
+  let TVSh = subtotal * TVShRate;
+
+  // Totali
+  let total = subtotal + TVSh;
+
+  // Shfaqja e rezultatit
+  document.getElementById("result").innerHTML =
+    "Totali: " + ETot.toFixed(2) + " kWh;" + " Tarifa e lartë: " + (b2-b1).toFixed(2) + " kWh;" + " Tarifa e ulët: " + (b4-b3).toFixed(2) + " kWh;" +  "<br>" +
+    "Shpenzimet e energjisë: € " + energyTotal.toFixed(2) + "<br>" +
+    "Kostoja e furnizuesit: € " + fixedFee.toFixed(2) + "<br>" +
+    "Gjithsej: € " + subtotal.toFixed(2) + "<br>" +
+    "TVSh (8%): € " + TVSh.toFixed(2) + "<br><br>" +
+    "Shuma për t'u paguar: € " + total.toFixed(2);
+}
+function refreshPage() {
+            location.reload();
+        }
+</script>
+
+<br>
+<p>--------------------------------</p>
+<br>
+<p>
+Llogaritja e energjisë elektrike (2026) <br>
+    <br>
+Për një rezultat sa më të përafërt me shumën në faturë, leximi i njehsorit duhet të bëhet më datë 25 të muajit përkatës. Vlerat në vijim janë përditësuar së fundmi më datë 19 shkurt 2026. <br>
+<br>
+Zona I: 0-800 kWh <br>
+  Tarifa e lartë:   0.0740 <br>
+  Tarifa e ulët:    0.0317 <br>
+  <br>
+Zona II: >800 kWh <br>
+
+  Tarifa e lartë:   0.1373 <br>
+  Tarifa e ulët:    0.0647 <br>
+  <br>
+Kostoja e furnizuesit:  1.9000 <br>
+<br>
+TVSh:                   8% <br>
+</p>
+
+</body>
+
 <footer>
-  <p>Page Version: 1.0.0</p>
+  <p>Versioni: 2.3</p>
 </footer>
+
+</html>
