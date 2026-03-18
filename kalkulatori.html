@@ -3,6 +3,24 @@
 <head>
   <title>Kalkulatori</title>
   <style>
+
+    input::placeholder,
+    textarea::placeholder {
+      background-color: #fbf7ee;
+    }
+
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+
+
     body {
       font-family: Arial;
       text-align: center;
@@ -12,23 +30,26 @@
     }
 
     input {
-      padding: 10px;
+      padding: 0px;
       margin: 8px;
       font-size: 16px;
       width: 250px;
+      height: 40px;
     }
 
     button {
       padding: 10px 20px;
-      font-size: 16px;
+      font-size: 15px;
       margin-top: 15px;
+      margin-left: 5px;
+      margin-right: 5px;
       cursor: pointer;
     }
 
     #result {
       margin-top: 25px;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 450;
     }
   </style>
 </head>
@@ -39,10 +60,10 @@
 <h1>Kalkulatori</h1>
 
 <br>
-<h3>Tarifa e lartë</h3><input type="number" id="block1" placeholder="Muaji paraprak (kWh)"> <input type="number" id="block2" placeholder="Muaji aktual (kWh)">
+<h3>Tarifa e lartë</h3><input type="number" id="block1" placeholder="Muaji paraprak (kWh)" autocomplete="off"> <input type="number" id="block2" placeholder="Muaji aktual (kWh)" autocomplete="off">
 <br>
 
-<h3>Tarifa e ulët</h3><input type="number" id="block3" placeholder="Muaji paraprak (kWh)"><input type="number" id="block4" placeholder="Muaji aktual (kWh)">
+<h3>Tarifa e ulët</h3><input type="number" id="block3" placeholder="Muaji paraprak (kWh)" autocomplete="off"><input type="number" id="block4" placeholder="Muaji aktual (kWh)" autocomplete="off">
 <br>
 
 <button onclick="refreshPage()">Rifresko</button> <button onclick="calculate()">Llogarit</button>
@@ -113,7 +134,7 @@ function refreshPage() {
 </script>
 
 <br>
-<p>--------------------------------</p>
+<br>
 <br>
 <p>
 Llogaritja e energjisë elektrike (2026) <br>
@@ -137,7 +158,7 @@ TVSh:                   8% <br>
 </body>
 
 <footer>
-  <p>Versioni: 2.3.1</p>
+  <p>Versioni: 2.4.0</p>
 </footer>
 
 </html>
