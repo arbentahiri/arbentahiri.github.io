@@ -6,7 +6,7 @@
 
     input::placeholder,
     textarea::placeholder {
-      background-color: #fbf7ee;
+      background-color: #fbfaf8;
     }
 
 
@@ -22,7 +22,7 @@
 
 
     body {
-      font-family: monospace;
+      font-family: helvetica;
       text-align: center;
       margin-top: 60px;
       background: #fbf7ee;
@@ -30,7 +30,7 @@
     }
 
     input {
-      font-family: monospace;
+      font-family: helvetica;
       padding: 0px;
       margin: 8px;
       font-size: 14px;
@@ -40,7 +40,7 @@
     }
 
     button {
-      font-family: monospace;
+      font-family: helvetica;
       padding: 10px 20px;
       font-size: 14px;
       margin-top: 15px;
@@ -52,7 +52,7 @@
     }
 
     #result {
-      font-family: monospace;
+      font-family: helvetica;
       max-width: 500px;
       width: 100%;
       padding-top: 50px;
@@ -69,7 +69,7 @@
       border: 1px solid lightgray;
       padding: 10px;
       margin: 0 auto;
-      font-size: 13px;
+      font-size: 14px;
     }
 
   </style>
@@ -78,13 +78,13 @@
 
 
 
-<h1>Kalkulatori</h1>
-
-<br>
-<h2>Tarifa e lartë</h2><input type="number" id="block1" placeholder=" Muaji paraprak (kWh)" autocomplete="off"> <input type="number" id="block2" placeholder=" Muaji aktual (kWh)" autocomplete="off">
+<h2>> - - - Kalkulatori - - - <</h2>
 <br>
 
-<h2>Tarifa e ulët</h2><input type="number" id="block3" placeholder=" Muaji paraprak (kWh)" autocomplete="off"><input type="number" id="block4" placeholder=" Muaji aktual (kWh)" autocomplete="off">
+<h3>Tarifa e lartë</h3><input type="number" id="block1" placeholder=" Muaji paraprak (kWh)" autocomplete="off"> <input type="number" id="block2" placeholder=" Muaji aktual (kWh)" autocomplete="off">
+<br>
+
+<h3>Tarifa e ulët</h3><input type="number" id="block3" placeholder=" Muaji paraprak (kWh)" autocomplete="off"><input type="number" id="block4" placeholder=" Muaji aktual (kWh)" autocomplete="off">
 <br>
 
 <button onclick="refreshPage()">Rifresko</button> <button onclick="calculate()">Llogarit</button>
@@ -185,7 +185,7 @@ TVSh:                   8% <br>
 </body>
 
 <footer>
-  <p>Versioni: 2.4.1</p>
+  <p>Versioni: 2.4.2</p>
 </footer>
 
 </html>
