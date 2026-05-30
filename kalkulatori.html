@@ -148,12 +148,9 @@ function calculate() {
 
   // Shfaqja e rezultatit
   document.getElementById("result").innerHTML =
-    "Totali: " + ETot.toFixed(2) + " kWh;" + " Tarifa e lartë: " + (b2-b1).toFixed(2) + " kWh;" + " Tarifa e ulët: " + (b4-b3).toFixed(2) + " kWh;" +  "<br>" +
-    "Shpenzimet e energjisë: € " + energyTotal.toFixed(2) + "<br>" +
-    "Kostoja e furnizuesit: € " + fixedFee.toFixed(2) + "<br>" +
-    "Gjithsej: € " + subtotal.toFixed(2) + "<br>" +
-    "TVSh (8%): € " + TVSh.toFixed(2) + "<br><br>" +
-    "Shuma për t'u paguar: € " + total.toFixed(2);
+    "Totali: " + ETot.toFixed(2) + " kWh |" + " Tarifa e lartë: " + (b2-b1).toFixed(2) + " kWh |" + " Tarifa e ulët: " + (b4-b3).toFixed(2) + " kWh" +  "<br>" +
+    "Shpenzimet: €" + energyTotal.toFixed(2) + " | " + "Kostoja e furnizuesit: €" + fixedFee.toFixed(2) + " | " + "TVSh (8%): €" + TVSh.toFixed(2) + "<br><br>" +
+    "Shuma që duhet paguar: €" + total.toFixed(2);
 }
 function refreshPage() {
             location.reload();
@@ -191,7 +188,7 @@ TVSh:                   8% <br>
 </body>
 
 <footer>
-  <p>Versioni: 2.4.2</p>
+  <p>Versioni: 2.4.4</p>
 </footer>
 
 </html>
