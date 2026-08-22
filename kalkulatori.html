@@ -2,7 +2,7 @@
 
 <html>
 
-<header>EnergyLog / Kroi i Vitakut / RKS / Versioni: 2.4.7 <br><p id="liveClock"></p></header> <br><br><br>
+<header>EnergyLog / Kroi i Vitakut / RKS / Versioni: 2.4.8 <br><p id="liveClock"></p></header> <br><br><br>
     
  Llogaritja e shpenzimeve për muajin <input type="text" id="month" placeholder=" 08-2003" autocomplete="off" maxlength="7" size="9"> në periudhën <input type="text" id="previous_date" placeholder=" 22.08.2003" autocomplete="off" maxlength="10" size="12"><input type="text" id="previous_time" placeholder=" 14:30" autocomplete="off" maxlength="5" size="7">
  deri më <input type="text" id="current_date" placeholder=" 22.08.2003" autocomplete="off" maxlength="10" size="12"><input type="text" id="current_time" placeholder=" 14:30" autocomplete="off" maxlength="5" size="7"><br>
@@ -16,16 +16,19 @@
     <title>Kalkulatori</title>
 
     <style>
-          .two-pages {
-        display: flex;
-        gap: 20px;
+      .two-pages {
+      display: flex;
+      gap: 20px;
+      justify-content: center;  
+      max-width: 960px;   
+      margin: 0 auto; 
       }
       .page {
         flex: 1;
         border: 2px solid #90a1b0;
         padding: 20px;
+        max-width: 450px;
         box-sizing: border-box;
-        margin: 10px;
       }
       @media (max-width: 768px) {
         .two-pages {
@@ -94,7 +97,7 @@
 
       .box {
         font-family: "Roboto", "Arial", sans-serif;
-        max-width: 768px;
+        max-width: 920px;
         width: 90%;
         height: 100%;
         border: 2px solid #90a1b0;
