@@ -1,408 +1,702 @@
 <!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalkulatori – EnergyLog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
 
-<html>
+  :root {
+    --bg: #eef3f1;
+    --surface: #ffffff;
+    --ink: #16302e;
+    --ink-soft: #5b746f;
+    --border: #cfe1dc;
+    --accent: #2f7b6d;
+    --accent-dark: #1f5c50;
+    --tile-bg: #eaf3f0;
+    --danger: #b3452f;
+    --danger-bg: #fbeae5;
+    --radius: 10px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
 
-<header>EnergyLog / Kroi i Vitakut / RKS / Versioni: 2.4.8 <br><p id="liveClock"></p></header> <br><br><br>
-    
- Llogaritja e shpenzimeve për muajin <input type="text" id="month" placeholder=" 08-2003" autocomplete="off" maxlength="7" size="9"> në periudhën <input type="text" id="previous_date" placeholder=" 22.08.2003" autocomplete="off" maxlength="10" size="12"><input type="text" id="previous_time" placeholder=" 14:30" autocomplete="off" maxlength="5" size="7">
- deri më <input type="text" id="current_date" placeholder=" 22.08.2003" autocomplete="off" maxlength="10" size="12"><input type="text" id="current_time" placeholder=" 14:30" autocomplete="off" maxlength="5" size="7"><br>
+  * { box-sizing: border-box; }
 
-  <br>
-  <br>
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    padding-bottom: 60px;
+  }
 
+  a { color: var(--accent-dark); }
 
-  <head>
+  /* Topbar */
+  .topbar {
+    background: var(--ink);
+    color: #eef3f1;
+    padding: 18px 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+  }
+  .topbar .brand {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+  }
+  .topbar .meta {
+    font-size: 13px;
+    color: #a9c2bc;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .topbar .meta span#liveClock {
+    font-family: "Roboto Mono", monospace;
+    font-weight: 600;
+    color: #eef3f1;
+  }
 
-    <title>Kalkulatori</title>
+  main {
+    max-width: 980px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+  }
 
-    <style>
-      .two-pages {
-      display: flex;
-      gap: 20px;
-      justify-content: center;  
-      max-width: 960px;   
-      margin: 0 auto; 
-      }
-      .page {
-        flex: 1;
-        border: 2px solid #90a1b0;
-        padding: 20px;
-        max-width: 450px;
-        box-sizing: border-box;
-      }
-      @media (max-width: 768px) {
-        .two-pages {
-          flex-direction: column;
-        }
-      }
+  h1 { font-size: 15px; }
+  h2 {
+    font-size: 15px;
+    margin: 0 0 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin: 0 0 4px;
+  }
 
-      input::placeholder,
-      textarea::placeholder {
-        background-color: transparent;
-        font-family: "Roboto", "Arial", sans-serif;
-      }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+  }
 
-      input[type="number"]::-webkit-outer-spin-button,
-      input[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
+  /* Period card */
+  .period-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+    align-items: flex-end;
+    margin-bottom: 18px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field label {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .field-group {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
 
-      input[type="number"] {
-        -moz-appearance: textfield;
-      }
+  input[type="text"], input[type="number"] {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 9px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--tile-bg);
+    color: var(--ink);
+    width: 140px;
+  }
+  input[type="number"] { width: 168px; }
+  input::placeholder { color: #7d9992; }
+  input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    background: #fff;
+  }
+  input.invalid {
+    border-color: var(--danger);
+    background: var(--danger-bg);
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"] { -moz-appearance: textfield; }
 
+  .field-error {
+    font-size: 11px;
+    color: var(--danger);
+    min-height: 14px;
+    display: block;
+  }
 
-      body {
-        font-family: "Roboto", "Arial", sans-serif;
-        text-align: center;
-        margin-top: 60px;
-        background: #f5f5f0;
-        color: #264348;
-      }
+  /* Two-column grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: 1fr; }
+    .topbar { flex-direction: column; }
+  }
 
-      input {
-        font-family: "Roboto", "Arial", sans-serif;
-        padding: 1px;
-        margin: 8px;
-        font-size: 14px;
-        /* width: 250px; */
-        height: 40px;
-        background-color: #d0e0e0;
-        border: 1px solid #90a1b0;
-      }
+  .tariff-block { margin-bottom: 18px; }
+  .tariff-inputs { display: flex; gap: 10px; flex-wrap: wrap; }
 
-      button {
-        font-family: "Roboto", "Arial", sans-serif;
-        padding: 10px 20px;
-        font-size: 14px;
-        margin-top: 15px;
-        margin-left: 5px;
-        margin-right: 5px;
-        background-color: #d0e0e0;
-        border: 1px solid #90a1b0;
-        cursor: pointer;
-      }
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 20px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  button.secondary {
+    background: transparent;
+    color: var(--accent-dark);
+  }
+  button.secondary:hover { background: var(--tile-bg); }
+  button.icon-btn {
+    padding: 11px 14px;
+    background: var(--tile-bg);
+    color: var(--ink);
+    border-color: var(--border);
+  }
+  button.icon-btn:hover { background: var(--border); }
 
-      #result {
-        font-family: "Roboto", "Arial", sans-serif;
-        max-width: 500px;
-        width: 100%;
-        padding-top: 50px;
-        margin-top: 25px;
-        font-size: 16px;
-        font-weight: 450;
-        margin: 0 auto;
-      }
+  .actions { display: flex; gap: 10px; margin-top: 8px; }
 
-      .box {
-        font-family: "Roboto", "Arial", sans-serif;
-        max-width: 920px;
-        width: 90%;
-        height: 100%;
-        border: 2px solid #90a1b0;
-        padding: 10px;
-        margin: 0 auto;
-        box-sizing: border-box;
-        font-size: 14px;
-        background-color: #d0e0e0;
+  /* Report card */
+  .report-placeholder {
+    color: var(--ink-soft);
+    font-size: 14px;
+    padding: 30px 0;
+    text-align: center;
+  }
 
-      }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stat {
+    background: var(--tile-bg);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat-label { font-size: 11px; color: var(--ink-soft); }
+  .stat-value {
+    font-family: "Roboto Mono", monospace;
+    font-weight: 600;
+    font-size: 15px;
+  }
 
-    </style>
-  </head>
+  .cost-breakdown { border-top: 1px solid var(--border); padding-top: 12px; }
+  .cost-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 5px 0;
+    color: var(--ink-soft);
+  }
+  .cost-row span:last-child {
+    font-family: "Roboto Mono", monospace;
+    color: var(--ink);
+  }
 
+  .total-due {
+    margin-top: 14px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .total-due span:first-child { font-size: 13px; color: #a9c2bc; }
+  .total-due .total-value {
+    font-family: "Roboto Mono", monospace;
+    font-size: 22px;
+    font-weight: 700;
+  }
 
+  #extraForm { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px; }
+  #extraForm .field-group { flex-wrap: wrap; }
+  #extraForm input[type="text"] { width: 100%; }
+  #extraForm .field { flex: 1 1 220px; }
 
-  <body>
+  /* Info card */
+  .info-card { margin-top: 18px; }
+  .info-card p.lead { color: var(--ink-soft); font-size: 13px; margin-top: 0; }
+  .tariff-table {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .tariff-zone {
+    background: var(--tile-bg);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .tariff-zone h3 { margin-bottom: 8px; }
+  .tariff-zone .row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 3px 0;
+  }
+  .tariff-zone .row span:last-child { font-family: "Roboto Mono", monospace; font-weight: 600; }
+  .extra-rates { display: flex; gap: 24px; margin-top: 12px; font-size: 13px; color: var(--ink-soft); }
+  .extra-rates b { color: var(--ink); font-family: "Roboto Mono", monospace; }
 
-    <div class="two-pages">
-      <div class="page">
-        <h1>Kalkulatori</h1>
-        <p>
-          <br>
+  @media (max-width: 520px) {
+    .stat-row { grid-template-columns: 1fr 1fr; }
+    .tariff-table { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
 
-          <h3>Tarifa e lartë</h3><input type="number" id="block1" placeholder=" Muaji paraprak (kWh)" autocomplete="off"> <input type="number" id="block2" placeholder=" Muaji aktual (kWh)" autocomplete="off">
-          <br>
-          <br>
+  <div class="topbar">
+    <div class="brand">EnergyLog</div>
+    <div class="meta">
+      <span>Kroi i Vitakut · RKS · v3.0.0</span>
+      <span id="liveClock"></span>
+    </div>
+  </div>
 
-          <h3>Tarifa e ulët</h3><input type="number" id="block3" placeholder=" Muaji paraprak (kWh)" autocomplete="off"><input type="number" id="block4" placeholder=" Muaji aktual (kWh)" autocomplete="off">
-          <br>
+  <main>
 
-          <button id = "rifresko" onclick="refreshPage()" style="display: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8635;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button> <button id = "llogarit" onclick="calculate()">Llogarit</button>
-
-
-          <br>
-          <br>
-          <br>
-
-        </p>
-
-
+    <section class="card period-card">
+      <div class="field">
+        <label for="month">Muaji</label>
+        <input type="text" id="month" placeholder="08-2003" autocomplete="off" maxlength="7">
+        <span class="field-error" id="monthError"></span>
       </div>
+      <div class="field">
+        <label>Nga</label>
+        <div class="field-group">
+          <input type="text" id="previous_date" placeholder="22.08.2003" autocomplete="off" maxlength="10">
+          <input type="text" id="previous_time" placeholder="14:30" autocomplete="off" maxlength="5" style="width:80px;">
+        </div>
+        <span class="field-error" id="previousDateError"></span>
+      </div>
+      <div class="field">
+        <label>Deri më</label>
+        <div class="field-group">
+          <input type="text" id="current_date" placeholder="22.08.2003" autocomplete="off" maxlength="10">
+          <input type="text" id="current_time" placeholder="14:30" autocomplete="off" maxlength="5" style="width:80px;">
+        </div>
+        <span class="field-error" id="currentDateError"></span>
+      </div>
+    </section>
 
+    <div class="grid">
 
+      <section class="card">
+        <h2>Leximet e njehsorit</h2>
 
+        <div class="tariff-block">
+          <h3>Tarifa e lartë</h3>
+          <div class="tariff-inputs">
+            <input type="number" id="block1" placeholder="Muaji paraprak (kWh)" autocomplete="off">
+            <input type="number" id="block2" placeholder="Muaji aktual (kWh)" autocomplete="off">
+          </div>
+        </div>
 
+        <div class="tariff-block">
+          <h3>Tarifa e ulët</h3>
+          <div class="tariff-inputs">
+            <input type="number" id="block3" placeholder="Muaji paraprak (kWh)" autocomplete="off">
+            <input type="number" id="block4" placeholder="Muaji aktual (kWh)" autocomplete="off">
+          </div>
+        </div>
 
-      <div class="page">
-       <h1>Raporti</h1>
-        <p> 
-          <div id="rezultati"></div>
-          <br><br><br>
-          <button id="moreDataBtn" style="display:none;">Gjenero raportin</button>
-          <div id="extraForm" style="display:none;">
-            <input type="text" id="Name" placeholder=" Emri dhe mbiemri" autocomplete="off"><input type="text" id="Street" placeholder=" Rruga dhe numri i shtëpisë" autocomplete="off"><input type="text" id="ZIP" placeholder=" Kodi postar dhe qyteti" autocomplete="off">
-            <br><br>
-            <input type="text" id="Njehsori" placeholder=" Numri i njehsorit" autocomplete="off">
-            <br><br>
+        <div class="actions">
+          <button id="llogarit" onclick="calculate()">Llogarit</button>
+          <button id="rifresko" class="icon-btn" onclick="refreshPage()" style="display:none;" title="Rifillo">&#8635; Rifillo</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Raporti</h2>
+        <div id="rezultati">
+          <div class="report-placeholder">Plotëso leximet dhe kliko "Llogarit" për të parë raportin.</div>
+        </div>
+
+        <div id="extraForm" style="display:none;">
+          <h3 style="margin-bottom:10px;">Të dhënat për raportin</h3>
+          <div class="field-group">
+            <div class="field"><input type="text" id="Name" placeholder="Emri dhe mbiemri" autocomplete="off"></div>
+            <div class="field"><input type="text" id="Njehsori" placeholder="Numri i njehsorit" autocomplete="off"></div>
+          </div>
+          <div class="field-group" style="margin-top:10px;">
+            <div class="field"><input type="text" id="Street" placeholder="Rruga dhe numri i shtëpisë" autocomplete="off"></div>
+            <div class="field"><input type="text" id="ZIP" placeholder="Kodi postar dhe qyteti" autocomplete="off"></div>
+          </div>
+          <div class="actions">
             <button id="downloadBtn">Shkarko PDF</button>
           </div>
+        </div>
+      </section>
 
-          <script src="https://arbentahiri.github.io/jspdf.umd.min.js"></script>
+    </div>
 
-          <script>
-
-            function refreshPage() {
-              location.reload();
-            }
-
-            function calculate() {
-
-              // Cmimet fikse per bllok
-              const cmimi1 = 0.0740;
-              const cmimi2 = 0.0317;
-              const cmimi3 = 0.1373;
-              const cmimi4 = 0.0647;
-
-              // Kostoja e furnizuesit
-              const fixedFee = 1.90;
-
-              // TVSh-ja ne perqindje
-              const TVShRate = 0.08; // 8%
-
-              // Inputet (0 nese e zbrazet)
-              let b1 = parseFloat(document.getElementById("block1").value) || 0;
-              let b2 = parseFloat(document.getElementById("block2").value) || 0;
-              let b3 = parseFloat(document.getElementById("block3").value) || 0;
-              let b4 = parseFloat(document.getElementById("block4").value) || 0;
-
-
-              // energjia totale ne kWh
-              let ETot = (b2-b1)+(b4-b3);
-
-              // ratio
-              let r=(b2-b1)/ETot;
-
-              //teprica (sasia mbi 800kWh)
-              let d=ETot-800;
-
-              // energjia totale ne Euro
-              let energyTotal = 0;
-              
-              if (ETot<=800) {
-                energyTotal= (b2-b1)*cmimi1 + (b4-b3)*cmimi2;
-              } else {
-                energyTotal = 800*r*cmimi1 + 800*(1-r)*cmimi2 + d*r*cmimi3 + d*(1-r)*cmimi4;
-              }
-
-              // Subtotali pa TVSh
-              let subtotal = energyTotal + fixedFee;
-
-              // TVSh
-              let TVSh = subtotal * TVShRate;
-
-              // Totali
-              let total = subtotal + TVSh;
-
-              // Shfaqja e rezultatit
-              document.getElementById("rezultati").innerHTML =
-              "Totali: " + ETot.toFixed(2) + " kWh |" + " Tarifa e lartë: " + (b2-b1).toFixed(2) + " kWh |" + " Tarifa e ulët: " + (b4-b3).toFixed(2) + " kWh" +  "<br>" +
-              "Shpenzimet: €" + energyTotal.toFixed(2) + " | " + "Kostoja e furnizuesit: €" + fixedFee.toFixed(2) + " | " + "TVSh (8%): €" + TVSh.toFixed(2) + "<br><br>" +
-              "Shuma që duhet paguar: €" + total.toFixed(2);
-              document.getElementById('rifresko').style.display = 'inline-block';
-              document.getElementById('moreDataBtn').style.display = 'inline-block';
-              document.getElementById('llogarit').style.display = 'none';
-
-              document.getElementById('moreDataBtn').addEventListener('click', () => {
-                document.getElementById('moreDataBtn').style.display = 'none';
-                document.getElementById('rezultati').style.display = 'none';
-                document.getElementById('extraForm').style.display = 'block';
-              });
-
-              document.getElementById('downloadBtn').addEventListener('click', () => {
-                const now = new Date();
-                const hh = String(now.getHours()).padStart(2, '0');
-                const mm = String(now.getMinutes()).padStart(2, '0');
-                const ss = String(now.getSeconds()).padStart(2, '0');
-                const dd = String(now.getDate()).padStart(2, '0');
-                const MM = String(now.getMonth() + 1).padStart(2, '0');
-                const yyyy = now.getFullYear();
-                const generatedAt = `${dd}.${MM}.${yyyy}, ${hh}:${mm}:${ss}`;
-
-                const muaji = document.getElementById('month').value;
-                const Emri = document.getElementById('Name').value;
-                const Nr_i_njehsorit = document.getElementById('Njehsori').value;
-                const Adresa1 = document.getElementById('Street').value;
-                const Adresa2 = document.getElementById('ZIP').value;
-                const file_name = document.getElementById('month').value;
-                const leximi_i_fundit = document.getElementById('current_date').value;
-                const leximi_i_parafundit = document.getElementById('previous_date').value;
-                const ora_f = document.getElementById('current_time').value;
-                const ora_p = document.getElementById('previous_time').value;
-
-
-                
-
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-
-                doc.setFillColor(245, 245, 240);
-
-                const pageWidth = doc.internal.pageSize.getWidth();
-                const pageHeight = doc.internal.pageSize.getHeight();
-                doc.rect(0, 0, pageWidth, pageHeight, 'F');
-
-                doc.text("Llogaritja e shpenzimeve për muajin: " , 10, 15);
-                doc.text(muaji, 110, 15);
-                doc.text("Numri i njehsorit: ", 10, 25);
-                doc.text(Nr_i_njehsorit, 110, 25);
-                doc.text("Adresa e pikës matëse: ", 10, 35);
-                doc.text(Emri + ", " + Adresa1, 110, 35);
-                doc.text(Adresa2, 110, 45);
-                doc.text("Leximi i fundit: ", 10, 70);
-                doc.text(leximi_i_fundit + ", "+ ora_f, 110, 70);
-                doc.text("Totali: ", 10, 80);
-                doc.text((b2+b4).toFixed(2)+" kWh", 110, 80);
-                doc.text("Tarifa e lartë: ", 10, 90);
-                doc.text(b2.toFixed(2)+" kWh", 110, 90);
-                doc.text("Tarifa e ulët: ", 10, 100);
-                doc.text(b4.toFixed(2)+" kWh", 110, 100);
-                doc.text("Leximi i parafundit: ", 10, 125);
-                doc.text(leximi_i_parafundit + ", "+ ora_p, 110, 125);
-                doc.text("Totali: ", 10, 135);
-                doc.text((b1+b3).toFixed(2)+" kWh", 110, 135);
-                doc.text("Tarifa e lartë: ", 10, 145);
-                doc.text(b1.toFixed(2)+" kWh", 110, 145);
-                doc.text("Tarifa e ulët: ", 10, 155);
-                doc.text(b3.toFixed(2)+" kWh", 110, 155);
-                doc.text("Diferenca ", 10, 180);
-                doc.text("Totali: ", 10, 190);
-                doc.text(ETot.toFixed(2)+" kWh", 110, 190);
-                doc.text("Tarifa e lartë: ", 10, 200);
-                doc.text((b2-b1).toFixed(2)+" kWh", 110, 200);
-                doc.text("Tarifa e ulët: ", 10, 210);
-                doc.text((b4-b3).toFixed(2)+" kWh", 110, 210);
-                doc.text("Shpenzimet: ", 10, 235);
-                doc.text("€"+energyTotal.toFixed(2), 110, 235);
-                doc.text("Kostoja e furnizuesit: ", 10, 245);
-                doc.text("€"+fixedFee.toFixed(2), 110, 245);
-                doc.text("TVSh (8%): ", 10, 255);
-                doc.text("€"+TVSh.toFixed(2), 110, 255);
-                doc.text("Shuma që duhet paguar: ", 10, 265);
-                doc.text("€"+total.toFixed(2), 110, 265);
-
-                doc.text("Krijuar më: ", 10, 285);
-                doc.text(generatedAt, 110, 285);
-                
-                doc.save(`${file_name}.pdf`);
-              });
-
-
-            }
-
-
-
-            document.getElementById('month').addEventListener('input', (e) => {
-              let value = e.target.value.replace(/\D/g, '');
-              if (value.length > 2) value = value.slice(0,2) + '-' + value.slice(2,6);
-              e.target.value = value;
-
-              const isValid = /^(0[1-9]|1[0-2])-\d{4}$/.test(value);
-              document.getElementById('monthYearError').style.display = isValid || value === '' ? 'none' : 'inline';
-            });
-
-
-            function setupDateField(inputId) {
-              document.getElementById(inputId).addEventListener('input', (e) => {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 2) value = value.slice(0,2) + '.' + value.slice(2);
-                if (value.length > 5) value = value.slice(0,5) + '.' + value.slice(5,9);
-                e.target.value = value;
-
-                const isValid = /^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/.test(value);
-              });
-            }
-
-            setupDateField('previous_date');
-            setupDateField('current_date');
-
-            function setupTimeField(inputId) {
-              document.getElementById(inputId).addEventListener('input', (e) => {
-                let value = e.target.value.replace(/\D/g, ''); // strip non-digits
-                if (value.length > 2) value = value.slice(0,2) + ':' + value.slice(2,4);
-                e.target.value = value;
-
-                const isValid = /^([01]\d|2[0-3]):[0-5]\d$/.test(value); 
-              });
-            }
-
-            setupTimeField('current_time');
-            setupTimeField('previous_time');
-
-            function updateClock() {
-              const now = new Date();
-              const hh = String(now.getHours()).padStart(2, '0');
-              const mm = String(now.getMinutes()).padStart(2, '0');
-              const ss = String(now.getSeconds()).padStart(2, '0');
-              document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss}`;
-            }
-
-            updateClock(); 
-            setInterval(updateClock, 1000);
-
-
-
-          </script>
-        
-        </p>
+    <section class="card info-card">
+      <h2>Llogaritja e energjisë elektrike (2026)</h2>
+      <p class="lead">Për një rezultat sa më të përafërt me shumën në faturë, leximi i njehsorit duhet të bëhet më datë 25 të muajit përkatës. Vlerat janë përditësuar së fundmi më datë 19 shkurt 2026.</p>
+      <div class="tariff-table">
+        <div class="tariff-zone">
+          <h3>Zona I · 0–800 kWh</h3>
+          <div class="row"><span>Tarifa e lartë</span><span>€0.0740</span></div>
+          <div class="row"><span>Tarifa e ulët</span><span>€0.0317</span></div>
+        </div>
+        <div class="tariff-zone">
+          <h3>Zona II · &gt;800 kWh</h3>
+          <div class="row"><span>Tarifa e lartë</span><span>€0.1373</span></div>
+          <div class="row"><span>Tarifa e ulët</span><span>€0.0647</span></div>
+        </div>
       </div>
-    </div>
+      <div class="extra-rates">
+        <div>Kostoja e furnizuesit: <b>€1.9000</b></div>
+        <div>TVSh: <b>8%</b></div>
+      </div>
+    </section>
 
+  </main>
 
-    <br>
-    <br>
+  <script src="https://arbentahiri.github.io/jspdf.umd.min.js"></script>
+  <script>
 
+    // ---------- Live clock ----------
+    function updateClock() {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
 
+    function refreshPage() { location.reload(); }
 
-    <div class="box">
-      <p>
-        Llogaritja e energjisë elektrike (2026) <br>
-            <br>
-        Për një rezultat sa më të përafërt me shumën në faturë, leximi i njehsorit duhet të bëhet më datë 25 të muajit përkatës. Vlerat në vijim janë përditësuar së fundmi më datë 19 shkurt 2026. <br>
-        <br>
-        Zona I: 0-800 kWh <br>
-          Tarifa e lartë:  €0.0740 <br>
-          Tarifa e ulët:    €0.0317 <br>
-          <br>
-        Zona II: >800 kWh <br>
+    // ---------- Input formatting + validation ----------
+    document.getElementById('month').addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 2) value = value.slice(0, 2) + '-' + value.slice(2, 6);
+      e.target.value = value;
 
-          Tarifa e lartë:   €0.1373 <br>
-          Tarifa e ulët:    €0.0647 <br>
-          <br>
-        Kostoja e furnizuesit:  €1.9000 <br>
-        <br>
-        TVSh:                   8% <br>
-      </p>
-    </div>
+      const isValid = /^(0[1-9]|1[0-2])-\d{4}$/.test(value);
+      const errorEl = document.getElementById('monthError');
+      const invalid = value !== '' && !isValid;
+      e.target.classList.toggle('invalid', invalid);
+      errorEl.textContent = invalid ? 'Formati: MM-VVVV' : '';
+    });
 
+    function setupDateField(inputId, errorId) {
+      document.getElementById(inputId).addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 2) value = value.slice(0, 2) + '.' + value.slice(2);
+        if (value.length > 5) value = value.slice(0, 5) + '.' + value.slice(5, 9);
+        e.target.value = value;
 
-  </body>
+        const isValid = /^(0[1-9]|[12]\d|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/.test(value);
+        const errorEl = document.getElementById(errorId);
+        const invalid = value !== '' && !isValid;
+        e.target.classList.toggle('invalid', invalid);
+        if (errorEl) errorEl.textContent = invalid ? 'Formati: DD.MM.VVVV' : '';
+      });
+    }
+    setupDateField('previous_date', 'previousDateError');
+    setupDateField('current_date', 'currentDateError');
 
-  <br>
+    function setupTimeField(inputId) {
+      document.getElementById(inputId).addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 2) value = value.slice(0, 2) + ':' + value.slice(2, 4);
+        e.target.value = value;
 
+        const isValid = /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
+        e.target.classList.toggle('invalid', value !== '' && !isValid);
+      });
+    }
+    setupTimeField('current_time');
+    setupTimeField('previous_time');
 
+    // ---------- Calculation ----------
+    // Store last computed values so the PDF export can reuse them.
+    let lastResult = null;
+
+    function calculate() {
+
+      // Çmimet fikse për bllok
+      const cmimi1 = 0.0740;
+      const cmimi2 = 0.0317;
+      const cmimi3 = 0.1373;
+      const cmimi4 = 0.0647;
+
+      // Kostoja e furnizuesit
+      const fixedFee = 1.90;
+
+      // TVSh-ja në përqindje
+      const TVShRate = 0.08; // 8%
+
+      // Inputet (0 nëse janë bosh)
+      let b1 = parseFloat(document.getElementById("block1").value) || 0;
+      let b2 = parseFloat(document.getElementById("block2").value) || 0;
+      let b3 = parseFloat(document.getElementById("block3").value) || 0;
+      let b4 = parseFloat(document.getElementById("block4").value) || 0;
+
+      const rezultatiEl = document.getElementById("rezultati");
+
+      // Leximi aktual nuk mund të jetë më i vogël se leximi paraprak
+      if (b2 < b1 || b4 < b3) {
+        rezultatiEl.innerHTML =
+          '<div class="field-error" style="font-size:13px;">Leximi i muajit aktual nuk mund të jetë më i vogël se leximi paraprak. Kontrollo shifrat e vendosura.</div>';
+        lastResult = null;
+        return;
+      }
+
+      // Energjia totale në kWh
+      let ETot = (b2 - b1) + (b4 - b3);
+
+      // Raporti mes tarifës së lartë dhe totalit (përdoret vetëm mbi 800 kWh)
+      let r = ETot === 0 ? 0 : (b2 - b1) / ETot;
+
+      // Teprica (sasia mbi 800 kWh)
+      let d = ETot - 800;
+
+      // Energjia totale në Euro
+      let energyTotal = 0;
+      if (ETot <= 800) {
+        energyTotal = (b2 - b1) * cmimi1 + (b4 - b3) * cmimi2;
+      } else {
+        energyTotal = 800 * r * cmimi1 + 800 * (1 - r) * cmimi2 + d * r * cmimi3 + d * (1 - r) * cmimi4;
+      }
+
+      // Subtotali pa TVSh
+      let subtotal = energyTotal + fixedFee;
+
+      // TVSh
+      let TVSh = subtotal * TVShRate;
+
+      // Totali
+      let total = subtotal + TVSh;
+
+      lastResult = { b1, b2, b3, b4, ETot, energyTotal, fixedFee, TVSh, total };
+
+      rezultatiEl.innerHTML = `
+        <div class="stat-row">
+          <div class="stat"><span class="stat-label">Energjia totale</span><span class="stat-value">${ETot.toFixed(2)} kWh</span></div>
+          <div class="stat"><span class="stat-label">Tarifa e lartë</span><span class="stat-value">${(b2 - b1).toFixed(2)} kWh</span></div>
+          <div class="stat"><span class="stat-label">Tarifa e ulët</span><span class="stat-value">${(b4 - b3).toFixed(2)} kWh</span></div>
+        </div>
+        <div class="cost-breakdown">
+          <div class="cost-row"><span>Shpenzimet e energjisë</span><span>€${energyTotal.toFixed(2)}</span></div>
+          <div class="cost-row"><span>Kostoja e furnizuesit</span><span>€${fixedFee.toFixed(2)}</span></div>
+          <div class="cost-row"><span>TVSh (8%)</span><span>€${TVSh.toFixed(2)}</span></div>
+        </div>
+        <div class="total-due">
+          <span>Shuma që duhet paguar</span>
+          <span class="total-value">€${total.toFixed(2)}</span>
+        </div>
+      `;
+
+      document.getElementById('rifresko').style.display = 'inline-block';
+      document.getElementById('llogarit').style.display = 'none';
+      document.getElementById('extraForm').style.display = 'block';
+    }
+
+    // ---------- PDF export ----------
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      if (!lastResult) return;
+      const { b1, b2, b3, b4, ETot, energyTotal, fixedFee, TVSh, total } = lastResult;
+
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const MM = String(now.getMonth() + 1).padStart(2, '0');
+      const yyyy = now.getFullYear();
+      const generatedAt = `${dd}.${MM}.${yyyy}, ${hh}:${mm}:${ss}`;
+
+      const muaji = document.getElementById('month').value || '—';
+      const Emri = document.getElementById('Name').value || '—';
+      const Nr_i_njehsorit = document.getElementById('Njehsori').value || '—';
+      const Adresa1 = document.getElementById('Street').value || '';
+      const Adresa2 = document.getElementById('ZIP').value || '';
+      const leximi_i_fundit = document.getElementById('current_date').value || '—';
+      const leximi_i_parafundit = document.getElementById('previous_date').value || '—';
+      const ora_f = document.getElementById('current_time').value || '';
+      const ora_p = document.getElementById('previous_time').value || '';
+      const file_name = document.getElementById('month').value || 'raporti';
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+
+      // Palette (matches the web app)
+      const ink = [22, 48, 46];
+      const inkSoft = [91, 116, 111];
+      const accent = [47, 123, 109];
+      const tile = [234, 243, 240];
+      const white = [255, 255, 255];
+      const border = [207, 225, 220];
+
+      const marginX = 15;
+      let y = 0;
+
+      // Header band
+      doc.setFillColor(...ink);
+      doc.rect(0, 0, pageWidth, 30, 'F');
+      doc.setTextColor(...white);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.text('EnergyLog', marginX, 18);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.text('Raporti i konsumit të energjisë elektrike', marginX, 24);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.text(`Muaji: ${muaji}`, pageWidth - marginX, 18, { align: 'right' });
+
+      y = 42;
+
+      // Helper: section title
+      function sectionTitle(text) {
+        doc.setTextColor(...accent);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.text(text, marginX, y);
+        y += 5;
+        doc.setDrawColor(...border);
+        doc.line(marginX, y, pageWidth - marginX, y);
+        y += 7;
+      }
+
+      // Helper: label/value row
+      function row(label, value, opts = {}) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(...inkSoft);
+        doc.text(label, marginX + 2, y);
+        doc.setFont('helvetica', opts.bold ? 'bold' : 'normal');
+        doc.setTextColor(...(opts.color || ink));
+        doc.text(String(value), pageWidth - marginX - 2, y, { align: 'right' });
+        y += 7;
+      }
+
+      // Klienti
+      sectionTitle('Të dhënat e klientit');
+      doc.setFillColor(...tile);
+      doc.roundedRect(marginX, y - 5, pageWidth - marginX * 2, 24, 2, 2, 'F');
+      row('Emri dhe mbiemri', Emri);
+      row('Numri i njehsorit', Nr_i_njehsorit);
+      row('Adresa', `${Adresa1}${Adresa1 && Adresa2 ? ', ' : ''}${Adresa2}` || '—');
+      y += 6;
+
+      // Leximet
+      sectionTitle('Leximet e njehsorit');
+      const colX = [marginX, marginX + 65, marginX + 105, marginX + 145];
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(...inkSoft);
+      doc.text('Data', colX[0], y);
+      doc.text('Totali', colX[1], y);
+      doc.text('Tarifa e lartë', colX[2], y);
+      doc.text('Tarifa e ulët', colX[3], y);
+      y += 4;
+      doc.setDrawColor(...border);
+      doc.line(marginX, y, pageWidth - marginX, y);
+      y += 6;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(...ink);
+      doc.text(`${leximi_i_parafundit} ${ora_p}`, colX[0], y);
+      doc.text(`${(b1 + b3).toFixed(2)} kWh`, colX[1], y);
+      doc.text(`${b1.toFixed(2)} kWh`, colX[2], y);
+      doc.text(`${b3.toFixed(2)} kWh`, colX[3], y);
+      y += 8;
+
+      doc.text(`${leximi_i_fundit} ${ora_f}`, colX[0], y);
+      doc.text(`${(b2 + b4).toFixed(2)} kWh`, colX[1], y);
+      doc.text(`${b2.toFixed(2)} kWh`, colX[2], y);
+      doc.text(`${b4.toFixed(2)} kWh`, colX[3], y);
+      y += 4;
+      doc.line(marginX, y, pageWidth - marginX, y);
+      y += 8;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...accent);
+      doc.text('Konsumi (diferenca)', colX[0], y);
+      doc.setTextColor(...ink);
+      doc.text(`${ETot.toFixed(2)} kWh`, colX[1], y);
+      doc.text(`${(b2 - b1).toFixed(2)} kWh`, colX[2], y);
+      doc.text(`${(b4 - b3).toFixed(2)} kWh`, colX[3], y);
+      y += 14;
+
+      // Kostoja
+      sectionTitle('Përmbledhja e kostos');
+      row('Shpenzimet e energjisë', `€${energyTotal.toFixed(2)}`);
+      row('Kostoja e furnizuesit', `€${fixedFee.toFixed(2)}`);
+      row('TVSh (8%)', `€${TVSh.toFixed(2)}`);
+      y += 3;
+
+      doc.setFillColor(...ink);
+      doc.roundedRect(marginX, y - 6, pageWidth - marginX * 2, 16, 2, 2, 'F');
+      doc.setTextColor(...white);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text('Shuma që duhet paguar', marginX + 4, y + 3);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.text(`€${total.toFixed(2)}`, pageWidth - marginX - 4, y + 4, { align: 'right' });
+      y += 24;
+
+      // Footer
+      doc.setDrawColor(...border);
+      doc.line(marginX, y, pageWidth - marginX, y);
+      y += 6;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...inkSoft);
+      doc.text(`Krijuar më: ${generatedAt}`, marginX, y);
+      doc.text('Gjeneruar automatikisht nga EnergyLog', pageWidth - marginX, y, { align: 'right' });
+
+      doc.save(`${file_name}.pdf`);
+    });
+
+  </script>
+
+</body>
 </html>
-
-
-
