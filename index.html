@@ -1,50 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="icon.png">
+<title>Arben Tahiri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f5f2ea;
+    --ink: #1f333a;
+    --ink-muted: #5c6f74;
+    --accent: #a9782f;
+    --line: #ddd6c6;
+    --max: 640px;
+  }
 
-  <head>
-    <link rel="icon" href="icon.png">
-    <title>Home</title>
-    <style>
+  * { box-sizing: border-box; }
 
-      body {
-        background: #f5f5f0;
-        color: #264348;
-        max-width: 900px;
-        margin: auto;
-        width: auto !important;
-      }
-    </style>
-  </head>
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 5rem;
+  }
+
+   
+  .hero{
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    margin-bottom: 3rem;
+  }
+
+  .portrait{
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+    flex-shrink: 0;
+    background: #e7e2d3;
+  }
+
+  .hero h1{
+    font-family: 'Newsreader', serif;
+    font-weight: 600;
+    font-size: 2.1rem;
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero .role{
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 1rem;
+  }
+
+   
+  section{
+    padding-top: 2.4rem;
+    margin-top: 2.4rem;
+    border-top: 1px solid var(--line);
+  }
+
+  section h2{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0 0 1.1rem;
+  }
+
+  p.bio{
+    margin: 0;
+    max-width: 62ch;
+  }
+
+   
+  .edu-item{
+    display: grid;
+    grid-template-columns: 108px 1fr;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+  }
+  .edu-item:last-child{ margin-bottom: 0; }
+
+  .edu-years{
+    color: var(--ink-muted);
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .edu-item strong{ font-weight: 600; }
+  .edu-item span{ display: block; color: var(--ink-muted); font-size: 0.95rem; }
+
+ 
+  .social-row{
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .social-row a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .social-row a:hover,
+  .social-row a:focus-visible{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  .social-row svg{ width: 19px; height: 19px; }
+
+   
+  .tool-card{
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    transition: border-color 0.15s ease;
+  }
+  .tool-card:hover,
+  .tool-card:focus-visible{ border-color: var(--accent); }
+
+  .tool-card strong{ display: block; font-size: 1rem; margin-bottom: 0.2rem; }
+  .tool-card span{ color: var(--ink-muted); font-size: 0.9rem; }
+
+  a{ color: var(--accent); }
+
+  @media (max-width: 480px){
+    .hero{ flex-direction: column; align-items: flex-start; gap: 1.1rem; }
+    .edu-item{ grid-template-columns: 1fr; gap: 0.15rem; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="hero">
+    <img class="portrait" src="profile.jpg" alt="Arben Tahiri">
+    <div>
+      <h1>Arben Tahiri</h1>
+      <p class="role">Physicist &middot; Data Science &amp; Machine Learning</p>
+    </div>
+  </div>
+
+  <p class="bio">I am a physicist with a strong interest in data science and machine learning. Over recent years, I have studied machine learning methods and their applications in particle physics, developing theoretical knowledge of data analysis, statistical modeling, and predictive algorithms.</p>
+
+  <section>
+    <h2>Education</h2>
+    <div class="edu-item">
+      <div class="edu-years">2018&ndash;2021</div>
+      <div><strong>Master of Science in Physics</strong><span>Heidelberg University</span></div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-years">2014&ndash;2017</div>
+      <div><strong>Bachelor of Science in Physics</strong><span>Prishtina University</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p class="bio">Feel free to connect with me.</p> 
+
+    <div class="social-row">
+      <a href="https://www.linkedin.com/in/arbenstahiri" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5ZM3 9.75h4V21H3V9.75Zm7 0h3.8v1.54h.05c.53-.96 1.83-1.98 3.77-1.98 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.35c0-1.28-.02-2.92-1.85-2.92-1.85 0-2.13 1.37-2.13 2.83V21h-4V9.75Z"/></svg>
+      </a>
+
+      <a href="https://facebook.com/arbenstahiri" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.2h2.4l.36-2.8h-2.76V9.2c0-.81.22-1.36 1.39-1.36h1.48V5.34c-.26-.03-1.13-.11-2.14-.11-2.12 0-3.57 1.29-3.57 3.67v2.1H8.25v2.8h2.41V21h2.84Z"/></svg>
+      </a>
+      <a href="https://instagram.com/arbenstahiri" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="16.9" cy="7.1" r="0.9" fill="currentColor" stroke="none"/></svg>
+      </a>
 
 
-
- <body>
-
-  <h1><center>Welcome to my website!</center></h1>
-  <br><br>
-
-  <p>I am a physicist with a strong interest in data science and machine learning. Over recent years, I have studied machine learning methods and their applications in particle physics, developing theoretical knowledge of data analysis, statistical modeling, and predictive algorithms.</p> <br>
-
-  <h3>Eduacation</h3>
-
-  2018 - 2021 <br> Master of science in physics, Heidelberg University 
-  <br><br>
-  2014 - 2017 <br> Bachelor of science in physics, Prishtina University 
-  
-  <br> <br>
-
-  <h3>Contact</h3>
+    </div>
+  </section>
 
 
-  <p>Feel free to connect with me on <a href="https://www.linkedin.com/in/t-arben" target="_blank">LinkedIn</a>.</p>
-
-  <br><br>
-  <h3>Tools</h3>
-
-  <a href= "https://arbentahiri.github.io/kalkulatori" target="_blank">EnergyLog</a>
-
-  
-
-  </body>
+</main>
+</body>
 </html>
-
